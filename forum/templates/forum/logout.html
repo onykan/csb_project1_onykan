@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>Logged out - Awesome Forum</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'forum/index.css' %}" />
+    <link rel="icon" href="{% static 'forum/favicon.png' %}" type="image/x-icon" />
+  </head>
+
+  <body>
+    <div id="mainlayout">
+      <div id="topbar">
+        <a href="/">
+          <h1>Awesome Forum</h1>
+        </a>
+      </div>
+      <div id="forumwindow">
+        <h2 class="fwheader">You have logged out.</h2>
+      </div>
+      <div id="sidebar">
+        <form action="/">
+          <button>Main page</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

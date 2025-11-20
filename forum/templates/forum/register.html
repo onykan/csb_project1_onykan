@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>Register - Awesome Forum</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'forum/index.css' %}" />
+    <link rel="icon" href="{% static 'forum/favicon.png' %}" type="image/x-icon" />
+  </head>
+
+  <body>
+    <div id="mainlayout">
+      <div id="topbar">
+        <a href="/">
+          <h1>Awesome Forum</h1>
+        </a>
+      </div>
+      <div id="forumwindow">
+        <h2 class="post">Login:</h2>
+        <form id="loginform" class="inlineform" action="?next={{ redirect }}" method="post">
+          {% csrf_token %}
+          <p>Username:</p>
+          <input name="username" id="username" type="text" minlength="2" maxlength="150" value="{{ previous_username }}"/>
+          <p>E-Mail:</p>
+          <input name="email" id="email" type="text" value="{{ previous_email }}"/>
+          <p>Password</p>
+          <input name="password" id="password" type="password" maxlength="128"/>
+          <p>Confirm password</p>
+          <input name="confirmpassword" id="confirmpassword" type="password"/>
+          <p class="error">{{ errormessage }}</p>
+          {% for fail in errorlist %}
+            <p class="error">{{ fail }}</p>
+          {% endfor %}
+        </form>
+      </div>
+      <div id="sidebar">
+        <button form="loginform" type="submit">Register</button>
+        <form action="{{ referer }}">
+          <button>Cancel</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

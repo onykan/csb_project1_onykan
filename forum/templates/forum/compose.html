@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>Write a post - Awesome Forum</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'forum/index.css' %}" />
+    <link rel="icon" href="{% static 'forum/favicon.png' %}" type="image/x-icon" />
+    <!--<script src="{% static 'forum/index.js' %}"></script>-->
+  </head>
+
+  <body>
+    <div id="mainlayout">
+      <div id="topbar">
+        <a href="/">
+          <h1>Awesome Forum</h1>
+        </a>
+        <div id="userinfo">
+          {% if not user.is_anonymous %}
+            <p>Logged in as:</p>
+            <p>{{ user.username }}</p>
+            <a href="/logout/">Log out</a>
+          {% else %}
+            <a href="/login/">Log in</a>
+            <p>or</p>
+            <a href="/register/">Register</a>
+          {% endif %}
+        </div>
+      </div>
+      <div id="forumwindow">
+        {% if edit_mode %}
+          <h2 class="fwheader">Editing post "{{ previous_title }}":</h2>
+        {% else %}
+          <h2 class="fwheader">Write a post:</h2>
+        {% endif %}
+        <form id="composeform" class="inlineform" action="" method="post">
+          {% csrf_token %}
+          <p>Post title (optional):</p>
+          <input name="title" id="title" type="text" maxlength="100" value="{{ previous_title }}"/>
+          <p>Post text:</p>
+          <div class="grow">
+            <textarea name="text" id="text" minlength="20" maxlength="5000">{{ previous_content }}</textarea>
+          </div>
+          <p class="error">{{ errormessage }}</p>
+        </form>
+      </div>
+      <div id="sidebar">
+        {% if edit_mode %}
+          <button form="composeform", type="submit">Confirm Edit</button>
+          <form action="../">
+            <button>Cancel Edit</button>
+          </form>
+        {% else %}
+          <button form="composeform", type="submit">Post</button>
+          <form action="/">
+            <button>Discard</button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </body>
+</html>

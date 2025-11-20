@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>{{ post.get_title }} - Awesome Forum</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'forum/index.css' %}" />
+    <link rel="icon" href="{% static 'forum/favicon.png' %}" type="image/x-icon" />
+    <script src="{% static 'forum/index.js' %}"></script>
+    <script src="{% static 'forum/post.js' %}"></script>
+  </head>
+
+  <body>
+    <div id="mainlayout">
+      <div id="topbar">
+        <a href="/">
+          <h1>Awesome Forum</h1>
+        </a>
+        <div id="userinfo">
+          {% if not user.is_anonymous %}
+            <p>Logged in as:</p>
+            <p>{{ user.username }}</p>
+            <a href="/logout/">Log out</a>
+          {% else %}
+            <a href="/login/">Log in</a>
+            <p>or</p>
+            <a href="/register/">Register</a>
+          {% endif %}
+        </div>
+      </div>
+      <div id="forumwindow">
+        <div class="post">
+          <div class="meta">
+            <p class="metatext">Posted at:</p>
+            <p class="timestamp">{{ post.get_timestamp }}</p>
+            <p class="metatext">by:</p>
+            <p class="uname">{{ post.get_sender_name }}</p>
+          </div>
+          <h3 class="header">{{ post.get_title }}</h3>
+          <p class="content">{{ post.content }}</p>
+        </div>
+        {% for reply in reply_list %}
+        <div class="post">
+          <div class="meta">
+            <p class="metatext">Reply at:</p>
+            <p class="timestamp">{{ reply.get_timestamp }}</p>
+            <p class="metatext">by:</p>
+            <p class="uname">{{ reply.get_sender_name }}</p>
+          </div>
+          <p class="content">{{ reply.content }}</p>
+        </div>
+        {% endfor %}
+        <div class="post" id="replyelement">
+          {% if not user.is_anonymous %}
+            <h4 class="header">Write a reply:</h4>
+            <form class="content" action="" method="post">
+              {% csrf_token %}
+              <textarea name="reply_text" id="reply_text" minlength="2" maxlength="1000"></textarea>
+              <button type="submit">Send</button>
+            </form>
+          {% else %}
+            <div class="header" id="replyblocked">
+              <a href="/login/?next=/post/{{ post.pk }}/"><h4>Log in</h4></a><h4> to join the conversation</h4>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      <div id="sidebar">
+        <button id="sbreplybutton" type="button">Write a reply</button>
+        {% if user == post.sender %}
+        <form action="./edit/">
+          <button>Edit post</button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </body>
+</html>

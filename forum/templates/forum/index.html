@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>Awesome Forum</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'forum/index.css' %}" />
+    <link rel="icon" href="{% static 'forum/favicon.png' %}" type="image/x-icon" />
+    <script src="{% static 'forum/index.js' %}"></script>
+  </head>
+
+  <body>
+    <div id="mainlayout">
+      <div id="topbar">
+        <a href="/">
+          <h1>Awesome Forum</h1>
+        </a>
+        <div id="userinfo">
+          {% if not user.is_anonymous %}
+            <p>Logged in as:</p>
+            <p>{{ user.username }}</p>
+            <a href="/logout/">Log out</a>
+          {% else %}
+            <a href="/login/">Log in</a>
+            <p>or</p>
+            <a href="/register/">Register</a>
+          {% endif %}
+        </div>
+      </div>
+      <div id="forumwindow">
+        {% for post in post_list %}
+        <div class="post">
+          <div class="meta">
+            <p class="metatext">Posted at:</p>
+            <p class="timestamp">{{ post.get_timestamp }}</p>
+            <p class="metatext">by:</p>
+            <p class="uname">{{ post.get_sender_name }}</p>
+          </div>
+          <h3 class="header"><a href="{% url 'forum:view' post.id %}">{{ post.get_title }}</a></h3>
+          <p class="content">{{ post.content }}</p>
+        </div>
+        {% endfor %}
+      </div>
+      <div id="sidebar">
+        <form action="/post/">
+          <button type="POST">Write a new post</button>
+        </form>
+        <form action="/search/">
+          <button type="POST">Search from site</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

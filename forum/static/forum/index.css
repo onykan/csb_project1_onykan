@@ -1,0 +1,158 @@
+body {
+    margin: 0;
+    background-color: aliceblue;
+}
+
+p {
+    margin: 0;
+}
+
+button {
+    background-color: rgb(64, 107, 109);
+    border: outset 5px cadetblue;
+    border-radius: 5px;
+    font-size: larger;
+    color: aliceblue;
+}
+
+button:hover {
+    background-color: rgb(56, 96, 97);
+    border: inset 5px cadetblue;
+    border-radius: 5px;
+    font-size: larger;
+    color: aliceblue;
+}
+
+textarea {
+    width: 100%;
+    resize: none;
+    box-sizing: border-box;
+}
+
+#mainlayout {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    grid-template-columns: 1fr 16em;
+    grid-template-areas:
+        "to to"
+        "fw sb";
+}
+
+#topbar {
+    grid-area: to;
+    margin: 10px 20px 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#topbar > a {
+    text-decoration: none;
+}
+
+#topbar h1 {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: initial;
+}
+
+#sidebar {
+    grid-area: sb;
+    margin: 10px 20px 20px 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#sidebar button {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#forumwindow {
+    grid-area: fw;
+    margin: 10px 10px 20px 20px;
+    outline: inset 5px cadetblue;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#composeform {
+    height: 80%;
+}
+
+#text {
+    height: 100%;
+}
+
+#reply_text {
+    height: 5em;
+}
+
+#replyblocked {
+    margin-top: 1.33em;
+    margin-bottom: 1.33em;
+}
+
+#replyblocked h4 {
+    display: inline;
+}
+
+.post {
+    width: calc(100% - 30px);
+    min-height: min-content;
+    max-height: 32em;
+    padding: 5px 20px 5px 10px;
+    display: grid;
+    grid-template-columns: 12em 1fr;
+    grid-template-areas:
+        "mt hd"
+        "mt ct";
+}
+
+.meta {
+    grid-area: mt;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.metatext {
+    font-size: small;
+}
+
+.uname {
+    width: inherit;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.header {
+    grid-area: hd;
+}
+
+.content {
+    grid-area: ct;
+}
+
+.fwheader {
+    padding: 5px 20px 5px 10px;
+}
+
+.inlineform {
+    display: flex;
+    flex-direction: column;
+    padding: 5px 20px 5px 10px;
+}
+
+.grow {
+    width: 100%;
+    flex: 1;
+}
+
+.error {
+    color: red;
+}

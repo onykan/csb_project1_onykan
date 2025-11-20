@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>Search - Awesome Forum</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'forum/index.css' %}" />
+    <link rel="icon" href="{% static 'forum/favicon.png' %}" type="image/x-icon" />
+    <script src="{% static 'forum/index.js' %}"></script>
+  </head>
+
+  <body>
+    <div id="mainlayout">
+      <div id="topbar">
+        <a href="/">
+          <h1>Awesome Forum</h1>
+        </a>
+      </div>
+    <div id="forumwindow">
+        <h2 class="fwheader">Search from posts and comments:</h2>
+        <form class="inlineform" action="" method="post">
+            {% csrf_token %}
+            <input type="text" name="search" id="search" minlength="2" maxlength="256"></input>
+            <button type="submit">Search</button>
+        </form>
+        {% if post_amount > -1 and reply_amount > -1 %}
+            <h2 class="fwheader">Post search results:</h2>
+            {% if post_amount > 0 %}
+                {% for post in post_results %}
+                    <div class="post">
+                        <div class="meta">
+                            <p class="metatext">Posted at:</p>
+                            <p class="timestamp">{{ post.get_timestamp }}</p>
+                            <p class="metatext">by:</p>
+                            <p class="uname">{{ post.get_sender_name }}</p>
+                        </div>
+                        <h3 class="header"><a href="{% url 'forum:view' post.id %}">{{ post.get_title }}</a></h3>
+                        <p class="content">{{ post.content }}</p>
+                     </div>
+                {% endfor %}
+            {% else %}
+                <p class="fwheader">None found</p>
+            {% endif %}
+            <h2 class="fwheader">Reply search results:</h2>
+            {% if reply_amount > 0 %}
+                {% for reply in reply_results %}
+                    <div class="post">
+                        <div class="meta">
+                            <p class="metatext">Replied at:</p>
+                            <p class="timestamp">{{ reply.get_timestamp }}</p>
+                            <p class="metatext">by:</p>
+                            <p class="uname">{{ reply.get_sender_name }}</p>
+                        </div>
+                        <h3 class="header">In post "<a href="{% url 'forum:view' reply.parent.id %}">{{ reply.parent.get_title }}</a>"</h3>
+                        <p class="content">{{ reply.content }}</p>
+                     </div>
+                {% endfor %}
+            {% else %}
+                <p class="fwheader">None found</p>
+            {% endif %}
+        {% endif %}
+    </div>
+      <div id="sidebar">
+        <form action="/">
+          <button>Main page</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
